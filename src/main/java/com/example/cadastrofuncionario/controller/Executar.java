@@ -42,6 +42,18 @@ public class Executar {
                     funcionario.getSalario()); // Formate conforme necessário
         }
 
+        // 3.4 - Aumentar salários em 10%
+        funcionarios.forEach(funcionario -> {
+            BigDecimal novoSalario = funcionario.getSalario().multiply(new BigDecimal("1.10"));
+            funcionario.setSalario(novoSalario);
+        });
+
+        for (Funcionario funcionario : funcionarios) {
+            System.out.println(funcionario.getNome() + " - " +
+                    funcionario.getDataNascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " - " +
+                    funcionario.getSalario()); // Formate conforme necessário
+        }
+
         return "Teste";
     }
 
