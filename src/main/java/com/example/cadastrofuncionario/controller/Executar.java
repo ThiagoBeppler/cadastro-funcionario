@@ -88,6 +88,21 @@ public class Executar {
         System.out.println("Funcionário mais velho: " + maisVelho.getNome() + " - " +
                 calcularIdade(maisVelho.getDataNascimento()) + " anos");
 
+        // 3.10 - Imprimir lista de funcionários por ordem alfabética
+        funcionarios.sort(Comparator.comparing(Funcionario::getNome));
+
+        System.out.println("Lista de funcionários por ordem alfabética:");
+        for (Funcionario funcionario : funcionarios) {
+            System.out.println(funcionario.getNome());
+        }
+
+        // 3.11 - Imprimir total dos salários
+        BigDecimal totalSalarios = funcionarios.stream()
+                .map(Funcionario::getSalario)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        System.out.println("Total dos salários: " + totalSalarios);
+
         return "Teste";
     }
 
