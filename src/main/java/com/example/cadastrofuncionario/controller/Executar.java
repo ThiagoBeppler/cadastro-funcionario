@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class Executar {
 
     @GetMapping("")
-    public String teste(){
+    public String executar(){
 
         List<Funcionario> funcionarios = new ArrayList<>();
 
@@ -103,13 +103,21 @@ public class Executar {
 
         System.out.println("Total dos salários: " + totalSalarios);
 
-        return "Teste";
+        // 3.12 - Imprimir quantos salários mínimos ganha cada funcionário
+        BigDecimal salarioMinimo = new BigDecimal("1320.00");
+
+        System.out.println("Salários em relação ao salário mínimo:");
+        funcionarios.forEach(funcionario -> {
+            BigDecimal salariosMinimos = funcionario.getSalario().divide(salarioMinimo, 2, BigDecimal.ROUND_HALF_UP);
+            System.out.println(funcionario.getNome() + " - " + salariosMinimos + " salários mínimos");
+        });
+
+        return "Executado";
     }
 
     private static int calcularIdade(LocalDate dataNascimento) {
         LocalDate hoje = LocalDate.now();
         return hoje.getYear() - dataNascimento.getYear();
     }
-
 
 }
