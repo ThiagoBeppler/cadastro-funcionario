@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/executar")
@@ -53,6 +55,18 @@ public class Executar {
                     funcionario.getDataNascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " - " +
                     funcionario.getSalario()); // Formate conforme necessário
         }
+
+        // 3.5 - Agrupar por função
+        Map<String, List<Funcionario>> funcionariosPorFuncao = funcionarios.stream()
+                .collect(Collectors.groupingBy(Funcionario::getFuncao));
+
+        // 3.6 - Imprimir funcionários agrupados por função
+        funcionariosPorFuncao.forEach((funcao, lista) -> {
+            System.out.println("Função: " + funcao);
+            for (Funcionario funcionario : lista) {
+                System.out.println(funcionario.getNome() + " - " + funcionario.getSalario());
+            }
+        });
 
         return "Teste";
     }
