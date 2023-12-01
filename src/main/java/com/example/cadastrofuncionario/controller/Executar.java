@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -23,7 +24,7 @@ public class Executar {
         List<Funcionario> funcionarios = new ArrayList<>();
 
         // 3.1 - Inserir funcionários
-        funcionarios.add(new Funcionario("Maria", LocalDate.of(2020, 10, 18), new BigDecimal("2009.44"), "Operador"));
+        funcionarios.add(new Funcionario("Maria", LocalDate.of(2000, 10, 18), new BigDecimal("2009.44"), "Operador"));
         funcionarios.add(new Funcionario("João", LocalDate.of(1990, 5, 12), new BigDecimal("2284.38"), "Operador"));
         funcionarios.add(new Funcionario("Caio", LocalDate.of(1961, 5, 2), new BigDecimal("9836.14"), "Coordenador"));
         funcionarios.add(new Funcionario("Miguel", LocalDate.of(1988, 10, 14), new BigDecimal("19119.88"), "Diretor"));
@@ -68,7 +69,31 @@ public class Executar {
             }
         });
 
+        // 3.8 - Imprimir funcionários que fazem aniversário no mês 10 e 12
+        List<Funcionario> aniversariantes = funcionarios.stream()
+                .filter(funcionario -> funcionario.getDataNascimento().getMonthValue() == 10 ||
+                        funcionario.getDataNascimento().getMonthValue() == 12)
+                .collect(Collectors.toList());
+
+        System.out.println("Aniversariantes de outubro e dezembro:");
+        for (Funcionario funcionario : aniversariantes) {
+            System.out.println(funcionario.getNome() + " - " + funcionario.getDataNascimento());
+        }
+
+        // 3.9 - Imprimir funcionário com maior idade
+        Funcionario maisVelho = funcionarios.stream()
+                .min(Comparator.comparing(funcionario -> funcionario.getDataNascimento()))
+                .orElse(null);
+
+        System.out.println("Funcionário mais velho: " + maisVelho.getNome() + " - " +
+                calcularIdade(maisVelho.getDataNascimento()) + " anos");
+
         return "Teste";
+    }
+
+    private static int calcularIdade(LocalDate dataNascimento) {
+        LocalDate hoje = LocalDate.now();
+        return hoje.getYear() - dataNascimento.getYear();
     }
 
 
